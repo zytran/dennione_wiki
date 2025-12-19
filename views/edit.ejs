@@ -42,6 +42,44 @@
         padding: 0.5rem 1rem;
         font-size: 0.9rem;
     }
+   
+.dark_mode .editor-toolbar {
+  background-color: #2b2b2b;
+  border-color: #444;
+}
+
+.dark_mode .editor-toolbar button {
+  color: #ddd;
+}
+
+.dark_mode .editor-toolbar button:hover {
+  background-color: #3a3a3a;
+}
+
+.dark_mode .CodeMirror {
+  background-color: #1e1e1e;
+  color: #f9f9f9;
+  border-color: #444;
+}
+
+.dark_mode .CodeMirror-gutters {
+  background-color: #1e1e1e;
+  border-right: 1px solid #444;
+}
+
+.dark_mode .CodeMirror-cursor {
+  border-left: 1px solid #fff;
+}
+
+.dark_mode .CodeMirror-selected {
+  background-color: #555 !important;
+}
+
+.dark_mode .CodeMirror-line::selection,
+.dark_mode .CodeMirror-line > span::selection {
+  background-color: #555;
+}
+
 
     h1 {
       text-align: center;
@@ -196,15 +234,24 @@ body:not(.dark_mode) .moon {
     });
   </script>
   <script>
-    function dark_mode() {
-        document.body.classList.toggle("dark_mode");
+function dark_mode() {
+  document.body.classList.toggle("dark_mode");
 
-        localStorage.setItem("darkMode", document.body.classList.contains("dark_mode"));
-    }
+  localStorage.setItem(
+    "darkMode",
+    document.body.classList.contains("dark_mode") ? "true" : "false"
+  );
 
-    if (localStorage.getItem("darkMode")==="true"){
-        document.body.classList.add("dark_mode")
-    }
+  // Force CodeMirror to redraw (fixes cursor/colors)
+  if (window.simplemde) {
+    simplemde.codemirror.refresh();
+  }
+}
+
+// Apply saved mode on load
+if (localStorage.getItem("darkMode") === "true") {
+  document.body.classList.add("dark_mode");
+}
 </script>
 </body>
 </html>
