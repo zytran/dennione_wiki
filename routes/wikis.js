@@ -6,34 +6,25 @@ const db = require("../db/db");
 const marked = require('marked');
 const sanitize = require('sanitize-html');
 
-//view route
-router.get('/:slug', async (req,res)=>{
-    const slug = req.params.slug; 
+
+//home route 
+router.get("/",async (req,res)=> {
+    
     const result = await db.query(
-        "select * from pages where slug = $1",
-        [slug]
+        `select slug, title, updated_at
+        from pages
+        order by updated_at desc
+        limit 10`
     );
 
-    if (result.rows.length===0){
-        return res.render("test_article",{
-            title: slug.replace(/-/g,' '), 
-            message: "<p>page does not exits yet</p>",
-            slug
-        });
-    }
+    console.log(result.rows);
 
-    const page = result.rows[0];
-    
-    
-    const content = sanitize(marked.parse(page.content));
-    const title = sanitize(marked.parse(page.title))
-    res.render("test_article",{
-        title: title,
-        message: content,
-        slug
+    res.render("home",{
+        title: "Welcome to Dennione",
+        recentPages: result.rows
     });
-    
 });
+
 
 //edit route 
 router.get('/:slug/edit', async (req,res)=> {
@@ -73,6 +64,59 @@ router.post('/:slug/edit', async (req,res)=> {
     );
 
     res.redirect(`/${slug}`);
+});
+
+
+
+//view route
+router.get('/:slug', async (req,res)=>{
+    const slug = req.params.slug; 
+    const result = await db.query(
+        "select * from pages where slug = $1",
+        [slug]
+    );
+
+    if (result.rows.length===0){
+        return res.render("test_article",{
+            title: slug.replace(/-/g,' '), 
+            message: "<p>page does not exits yet</p>",
+            slug
+        });
+    }
+
+    const page = result.rows[0];
+    
+    
+    const content = sanitize(marked.parse(page.content));
+    const title = sanitize(marked.parse(page.title))
+    res.render("test_article",{
+        title: title,
+        message: content,
+        slug
+    });
+    
+});
+
+
+//search route
+router.get("/search",async (req,res)=>{
+    const query = req.query.q || "";
+
+    if (!query){
+        return res.render("search", {query, results: [] });
+    }
+
+    const result = await db.query(
+        `select slug, title
+        from pages
+        where title ilike $1 or content ilike $1
+        order by updated_at desc
+        limit 20
+        `,
+        [`%${query}%`]
+    );
+
+    res.render("search", {query,results: result.rows});
 });
 
 
