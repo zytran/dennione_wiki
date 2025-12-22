@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Edit: <%= title %></title>
-
+  <link rel="icon" href="/icons/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplemde/dist/simplemde.min.css">
 
   <style>
@@ -193,6 +193,13 @@ body:not(.dark_mode) .moon {
   background: #555;
 }
 
+.instructions p {
+  margin: 0.4em 0;
+  line-height: 1.3;
+}
+
+
+
 
   </style>
 </head>
@@ -208,6 +215,12 @@ body:not(.dark_mode) .moon {
 </div>
   
   <form method="POST">
+  <div class="instructions">
+  <p>Currently the wiki uses markdown for formatting: <a href="https://www.markdownguide.org/cheat-sheet/">Here's a quick formatting guide for it</a></p>
+  <p>I also didn't add support for images yet, but you can workaround that by using Discord to host images.</p>
+  <p>Copy the image link from Discord and use the correct markdown to display it</p>
+</div>
+
     <textarea id="editor" name="content"><%= content %></textarea>
     <button type="submit">Save</button>
   </form>

@@ -66,38 +66,6 @@ router.post('/:slug/edit', async (req,res)=> {
     res.redirect(`/${slug}`);
 });
 
-
-
-//view route
-router.get('/:slug', async (req,res)=>{
-    const slug = req.params.slug; 
-    const result = await db.query(
-        "select * from pages where slug = $1",
-        [slug]
-    );
-
-    if (result.rows.length===0){
-        return res.render("test_article",{
-            title: slug.replace(/-/g,' '), 
-            message: "<p>page does not exits yet</p>",
-            slug
-        });
-    }
-
-    const page = result.rows[0];
-    
-    
-    const content = sanitize(marked.parse(page.content));
-    const title = sanitize(marked.parse(page.title))
-    res.render("test_article",{
-        title: title,
-        message: content,
-        slug
-    });
-    
-});
-
-
 //search route
 router.get("/search",async (req,res)=>{
     const query = req.query.q || "";
@@ -108,11 +76,12 @@ router.get("/search",async (req,res)=>{
     }
     
     const exact = await db.query(
-        `select slug, title from pages where slug = $1 limit 1`,
+        `select slug, title from pages where LOWER(slug) = LOWER($1) limit 1`,
         [query]
     );
 
     if (exact.rows.length>0){
+        console.log("redirect route ", exact.rows[0].slug);
         return res.redirect(`/${exact.rows[0].slug}`);
     }
 
@@ -128,6 +97,79 @@ router.get("/search",async (req,res)=>{
 
     res.render("search", {query,results: result.rows});
 });
+
+
+//create route
+router.get('/create', (req, res) => {
+  res.render('create', {
+    title: 'Create New Page',
+    page: {},       
+    errors: []      
+  });
+});
+router.post('/create', async (req, res) => {
+  const { title, slug, content } = req.body;
+  let errors = [];
+
+  
+  if (!title || !slug || !content) {
+    errors.push('all fields are required.');
+  }
+
+  
+  const existing = await db.query('select slug from pages where slug = $1', [slug]);
+  if (existing.rows.length > 0) {
+    errors.push('Slug already exists. Choose a different one.');
+  }
+
+  if (errors.length > 0) {
+    return res.render('create', { title: 'Create New Page', page: req.body, errors });
+  }
+
+  
+  await db.query(
+    'INSERT INTO pages (title, slug, content, updated_at) VALUES ($1, $2, $3, NOW())',
+    [title, slug, content]
+  );
+
+  res.redirect(`/${slug}`); 
+});
+
+
+//view route
+router.get('/:slug', async (req,res)=>{
+    const slug = req.params.slug; 
+    const result = await db.query(
+        "select * from pages where slug = $1",
+        [slug]
+    );
+
+    if (result.rows.length===0){
+        return res.render("test_article",{
+            title: slug.replace(/-/g,' '), 
+            message: "<p>page does not exist yet</p>",
+            slug
+        });
+    }
+
+    const page = result.rows[0];
+    
+    
+    const content = sanitize(marked.parse(page.content), {
+        allowedTags: sanitize.defaults.allowedTags.concat(['img']),
+    allowedAttributes:{...sanitize.defaults.allowedAttributes, img:['src','alt','title','width','height']}
+    });
+    const title = sanitize(page.title)
+    res.render("test_article",{
+        title: title,
+        message: content,
+        slug
+    });
+    
+});
+
+
+
 
 
 module.exports = router;

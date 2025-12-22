@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title><%= title %></title>
-
+  <link rel="icon" href="/icons/favicon.ico" type="image/x-icon">
   <style>
     body {
       font-family: system-ui, Arial, sans-serif;
@@ -13,8 +13,16 @@
       background-color: #f9f9f9;
       color: #111;
       transition: background-color 0.3s, color 0.3s;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
     }
 
+  
+    .content{
+      flex:1;
+    }
+    
     .dark_mode{
         background-color: #333;
         color: #f9f9f9;   
@@ -36,6 +44,7 @@
         border-color: #666 ;
     }
 
+
     .dark_toggle{
         position: fixed;
         top: 1rem;
@@ -43,7 +52,13 @@
         padding: 0.5rem 1rem;
         font-size: 0.9rem;
     }
-
+    .dark_mode footer{
+      text-align: center;
+      padding: 10px;
+      background-color: #333;
+      color: #cccaca;
+      position: relative; 
+    }
     h1 {
       text-align: center;
       color: #333;
@@ -156,6 +171,28 @@ body:not(.dark_mode) .moon {
   background: #555;
 }
 
+.home-logo-link {
+  position: fixed;   
+  top: 1rem;         
+  left: 1rem;        
+  z-index: 1000;     
+}
+
+.home-logo {
+  width: 144px;       
+  height: 144px;
+  cursor: pointer;   
+  transition: opacity 0.3s;
+}
+
+.home-logo-link:hover .home-logo {
+  opacity: 0.8;      
+}
+.instructions p {
+  margin: 0.4em 0;
+  line-height: 1.3;
+}
+
   </style>
 </head>
 
@@ -170,23 +207,31 @@ body:not(.dark_mode) .moon {
     </div>
 </div>
 
+<a href="/" class="home-logo-link">
+  <img src="/icons/logo.png" alt="Home" class="home-logo">
+</a>
+
+
   <header>
-    <h1><%- title %></h1>
+    <h1><%= title %></h1>
   </header>
 
   <main>
-    <p>This is a test EJS page.</p>
+    <div class="content">
+      <p>These pages are currently in a very early beta stage</p>
+    <p><strong>Information subject to change</strong></p>
 
     <p><a href="/<%=slug %>/edit">Edit this page</a></p>
     <p><strong>Message from server:</strong></p>
-    <div>
+   
+    <div class="article-content">
       <%- message %>
     </div>
+      </div>
+    
   </main>
 
-  <footer>
-    <p>created by ysa</p>
-  </footer>
+  
 
   <script>
     function dark_mode() {

@@ -1,19 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
   <meta charset="UTF-8">
-    <link rel="icon" href="/icons/favicon.ico" type="image/x-icon">
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplemde/dist/simplemde.min.css">
-    <title>Search</title>
+  <title>Create New Page</title>
+  <link rel="icon" href="/icons/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplemde/dist/simplemde.min.css">
+
+
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: system-ui, Arial, sans-serif;
       max-width: 800px;
       margin: 2rem auto;
-      padding: 0 1rem;
       line-height: 1.6;
       background-color: #f9f9f9;
+      color: #111;
+      transition: background-color 0.3s, color 0.3s;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .content {
+      flex: 1;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    button {
+      width: 120px;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 4px;
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+      align-self: flex-start;
+    }
+    input[type="text"], textarea 
+    { padding: 0.5rem;
+         font-size: 1rem; 
+         border: 1px solid #ccc; 
+         border-radius: 4px; 
+         width: 100%; 
+         box-sizing: border-box; }
+
+    button:hover {
+      background-color: #45a049;
     }
 
     .dark_mode{
@@ -212,55 +260,79 @@ body:not(.dark_mode) .moon {
   opacity: 0.8;      
 }
 
-    </style>
-  <title>Search results for "<%= query %>"</title>
+  </style>
 </head>
-<body>
-     <div class = "theme_toggle" onclick="dark_mode()">
+  
+  <div class="theme_toggle" onclick="dark_mode()">
     <div class="toggle_track">
-        <img src ="/icons/sun.svg" class="icon sun" alt="Light Mode">
-        <img src ="/icons/moon.svg" class = "icon moon" alt="Dark Mode">
-        <div class="toggle_thumb"></div>
+      <img src="/icons/sun.svg" class="icon sun" alt="Light Mode">
+      <img src="/icons/moon.svg" class="icon moon" alt="Dark Mode">
+      <div class="toggle_thumb"></div>
     </div>
+  </div>
+
+  
+  <a href="/" class="home-logo-link">
+    <img src="/icons/logo.png" alt="Home" class="home-logo">
+  </a>
+
+  <header>
+    <h1>Create New Page</h1>
+  </header>
+
+  <main>
+    <div class="content">
+      <% if (errors && errors.length > 0) { %>
+        <ul>
+          <% errors.forEach(e => { %>
+            <li><%= e %></li>
+          <% }) %>
+        </ul>
+      <% } %>
+
+      <form action="/create" method="POST">
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title" value="<%= page?.title || '' %>" required>
+
+        <label for="slug">Slug (URL)</label>
+        <input type="text" name="slug" id="slug" value="<%= page?.slug || '' %>" required>
+
+        <label for="content">Content</label>
+        <div class="instructions">
+  <p>Currently the wiki uses markdown for formatting: <a href="https://www.markdownguide.org/cheat-sheet/">Here's a quick formatting guide for it</a></p>
+  <p>I also didn't add support for images yet, but you can workaround that by using Discord to host images.</p>
+  <p>Copy the image link from Discord and use the correct markdown to display it</p>
 </div>
-
-<a href="/" class="home-logo-link">
-  <img src="/icons/logo.png" alt="Home" class="home-logo">
-</a>
-  <h1>Search results for "<%= query %>"</h1>
-
-  <% if (results.length === 0) { %>
-    <p>No pages found.</p>
-  <% } else { %>
-    <ul>
-      <% results.forEach(page => { %>
-        <li><a href="/<%=page.slug %>"><%= page.title %></a></li>
-      <% }) %>
-    </ul>
-  <% } %>
-
-  <a href="/">Back to home</a>
-
+        <textarea id="editor" name="content"><%= page?.content || '' %></textarea>
+        <button type="submit">Create Page</button>
+      </form>
+    </div>
+  </main>
 
   <script>
-function dark_mode() {
-  document.body.classList.toggle("dark_mode");
+    function dark_mode() {
+      document.body.classList.toggle("dark_mode");
+      localStorage.setItem("darkMode", document.body.classList.contains("dark_mode"));
+    }
 
-  localStorage.setItem(
-    "darkMode",
-    document.body.classList.contains("dark_mode") ? "true" : "false"
-  );
+    if (localStorage.getItem("darkMode") === "true") {
+      document.body.classList.add("dark_mode");
+    }
+  </script>
 
-  // Force CodeMirror to redraw (fixes cursor/colors)
-  if (window.simplemde) {
-    simplemde.codemirror.refresh();
-  }
-}
-
-// Apply saved mode on load
-if (localStorage.getItem("darkMode") === "true") {
-  document.body.classList.add("dark_mode");
-}
+  <script src="https://cdn.jsdelivr.net/npm/simplemde/dist/simplemde.min.js"></script>
+<script>
+  const simplemde = new SimpleMDE({
+    element: document.getElementById("editor"),
+    spellChecker: true,
+    status: false,
+    autosave: {
+      enabled: true,
+      uniqueId: "wiki-editor-<%= page?.slug || '' %>",
+      delay: 1000
+    }
+  });
 </script>
+
 </body>
 </html>

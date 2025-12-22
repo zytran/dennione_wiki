@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
   <meta charset="UTF-8">
   <title><%= title %></title>
-
+  <link rel="icon" href="/icons/favicon.ico" type="image/x-icon">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -190,7 +191,79 @@ body:not(.dark_mode) .moon {
 .dark_mode .toggle_track {
   background: #555;
 }
+.home-logo-link {
+  position: fixed;   
+  top: 1rem;         
+  left: 1rem;        
+  z-index: 1000;     
+}
 
+.home-logo {
+  width: 144px;       
+  height: 144px;
+  cursor: pointer;   
+  transition: opacity 0.3s;
+}
+
+.home-logo-link:hover .home-logo {
+  opacity: 0.8;      
+}
+.search-form {
+  position: relative;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.search-form input[type="text"] {
+  width: 100%;
+  padding: 0.5rem 2.5rem 0.5rem 0.5rem; /* room for icon */
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.search-form .search-btn {
+  position: absolute;
+  right: -5.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #555;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-form .search-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.search-form .search-btn:hover svg {
+  color: #000;
+}
+.search-icon{
+    width:50px;
+    height:50px;
+}
+
+    .btn-create {
+      width: 120px;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 4px;
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+
+    .btn-create:hover {
+      background-color: #45a049;
+    }
 
   </style>
 </head>
@@ -202,13 +275,34 @@ body:not(.dark_mode) .moon {
         <div class="toggle_thumb"></div>
     </div>
     </div>
+<a href="/" class="home-logo-link">
+  <img src="/icons/logo.png" alt="Home" class="home-logo">
+</a>
+
+
+
 
   <h1><%= title %></h1>
 
-  <form action="/search" method="GET">
+ <div class="search-container">
+  <form action="/search" method="GET" class="search-form">
     <input type="text" name="q" placeholder="Search pages">
-    <button type="submit">Search</button>
+    <button type="submit" class="search-btn" aria-label="Search">
+      <img src="/icons/search.svg" alt="Search" class="search-icon">
+    </button>
   </form>
+</div>
+
+<div class="actions">
+  <form action="/create" method="GET">
+    <button type="submit" class="btn-create">Create New Page</button>
+  </form>
+</div>
+
+</form>
+</form>
+
+
 
   <h2>Most Recent Pages</h2>
   <ul>
@@ -240,6 +334,12 @@ if (localStorage.getItem("darkMode") === "true") {
   document.body.classList.add("dark_mode");
 }
 </script>
+
+<footer>
+    <p>created by ysa / @Yoshingo on discord</p>contact me on discord or at
+    <a href="mailto:contact@yoshingo.org">contact@yoshingo.org</a></p>
+</footer>
+
 </body>
 
 </html>
