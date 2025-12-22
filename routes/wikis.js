@@ -17,7 +17,7 @@ router.get("/",async (req,res)=> {
         limit 10`
     );
 
-    console.log(result.rows);
+    
 
     res.render("home",{
         title: "Welcome to Dennione",
@@ -101,9 +101,19 @@ router.get('/:slug', async (req,res)=>{
 //search route
 router.get("/search",async (req,res)=>{
     const query = req.query.q || "";
+    console.log(query);
 
     if (!query){
         return res.render("search", {query, results: [] });
+    }
+    
+    const exact = await db.query(
+        `select slug, title from pages where slug = $1 limit 1`,
+        [query]
+    );
+
+    if (exact.rows.length>0){
+        return res.redirect(`/${exact.rows[0].slug}`);
     }
 
     const result = await db.query(

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Search results for "<%= query %>"</title>
+</head>
+<body>
+  <h1>Search results for "<%= query %>"</h1>
+
+  <% if (results.length === 0) { %>
+    <p>No pages found.</p>
+  <% } else { %>
+    <ul>
+      <% results.forEach(page => { %>
+        <li><a href="/<%=page.slug %>"><%= page.title %></a></li>
+      <% }) %>
+    </ul>
+  <% } %>
+
+  <a href="/">Back to home</a>
+</body>
+</html>
