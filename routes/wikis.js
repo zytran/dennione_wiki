@@ -26,6 +26,13 @@ router.get("/",async (req,res)=> {
 });
 
 
+//getting started route
+router.get("/getting-started", async (req,res)=>{
+    res.render("getting_started",{
+        title: "Guide to Getting Started"
+    });
+});
+
 //edit route 
 router.get('/:slug/edit', async (req,res)=> {
     const slug = req.params.slug;
@@ -40,15 +47,14 @@ router.get('/:slug/edit', async (req,res)=> {
     res.render('edit',{
         title: page?.title || slug.replace(/-/g,' '),
         slug,
-        content: page?.content || ''
+        content: page?.content || '',page
     });
 
 });
 
 router.post('/:slug/edit', async (req,res)=> {
     const slug = req.params.slug;
-    const title = slug.replace(/-/g," ");
-    const content = req.body.content;
+    const {title,content} = req.body;
 
     await db.query(
         `
@@ -65,6 +71,18 @@ router.post('/:slug/edit', async (req,res)=> {
 
     res.redirect(`/${slug}`);
 });
+
+router.post('/:slug/delete', async (req, res) => {
+  const slug = req.params.slug;
+
+  await db.query(
+    'delete from pages where slug = $1',
+    [slug]
+  );
+
+  res.sendStatus(200);
+});
+
 
 //search route
 router.get("/search",async (req,res)=>{
@@ -97,6 +115,10 @@ router.get("/search",async (req,res)=>{
 
     res.render("search", {query,results: result.rows});
 });
+
+
+
+
 
 
 //create route
@@ -167,7 +189,6 @@ router.get('/:slug', async (req,res)=>{
     });
     
 });
-
 
 
 

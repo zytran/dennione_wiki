@@ -7,12 +7,13 @@
   <link rel="icon" href="/icons/favicon.ico" type="image/x-icon">
   <style>
     body {
+      height: 100%;
       font-family: Arial, sans-serif;
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 0 1rem;
       line-height: 1.6;
       background-color: #f9f9f9;
+      display:flex;
+      flex-direction: column;
+      min-height: 100%;
     }.dark_mode{
         background-color: #333;
         color: #f9f9f9;   
@@ -264,6 +265,40 @@ body:not(.dark_mode) .moon {
     .btn-create:hover {
       background-color: #45a049;
     }
+    p.centered{
+    text-align:center;
+}
+
+.container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.content {
+  flex: 1;
+}
+
+
+footer {
+  width: 100vw;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+
+.footer-inner {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 1rem;
+  text-align: center;
+}
+.dark_mode footer {
+  background-color: #333;
+  color: #f9f9f9;
+}
+
+
 
   </style>
 </head>
@@ -281,9 +316,10 @@ body:not(.dark_mode) .moon {
 
 
 
-
+<main class="content">
+  <div class="container">
   <h1><%= title %></h1>
-
+  <p style="text-align: center;">If you are new to the wiki please take some time to read <a href = "/getting-started" target="_blank">this guide</a> to help you get started</p>
  <div class="search-container">
   <form action="/search" method="GET" class="search-form">
     <input type="text" name="q" placeholder="Search pages">
@@ -317,11 +353,16 @@ body:not(.dark_mode) .moon {
   <h2>Current Priority Updates</h2>
   <ul>
     <li>Getting started page</li>
-    <li>Add a delete page button to wikis</li>
     <li>Add support for linked headers in wikis </li>
-    <li>Create grouping for differnt sections (ie. locations / characters)</li>
+    <li>Create grouping for different sections (ie. locations / characters)</li>
     <li>Improve search bar</li>
     <li>Improve general formatting</li>
+  </ul>
+  <h2>Patch Notes (Ver 1.0.1)</h2>
+  <ul>
+    <li>Added delete button in the edit pages of wikis</li>
+    <li>Added getting started page to home</li>
+    <li>Removed dev text and worked on general formatting</li>
   </ul>
 
  <script>
@@ -344,7 +385,8 @@ if (localStorage.getItem("darkMode") === "true") {
   document.body.classList.add("dark_mode");
 }
 </script>
-
+</div>
+</main>
 <footer>
     <p>created by ysa / @Yoshingo on discord</p>contact me on discord or at
     <a href="mailto:contact@yoshingo.org">contact@yoshingo.org</a></p>
