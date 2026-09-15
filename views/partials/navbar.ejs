@@ -1,0 +1,31 @@
+<header class="site-navbar">
+  <div class="site-navbar-inner">
+    <a href="/" class="site-brand">
+      <img src="/icons/logo.png" alt="" class="site-logo">
+      <span class="site-name">Dennione</span>
+    </a>
+
+    <nav class="site-nav">
+      <a href="/">Home</a>
+      <a href="/getting-started">Getting Started</a>
+      <a href="/create">Create Page</a>
+    </nav>
+
+    <div class="site-navbar-actions">
+      <form action="/search" method="GET" class="nav-search" autocomplete="off">
+        <input type="text" name="q" class="js-search-input" placeholder="Search pages...">
+        <button type="submit" aria-label="Search">
+          <img src="/icons/search.svg" alt="">
+        </button>
+        <ul class="search-suggestions js-search-suggestions"></ul>
+      </form>
+      <div class="theme_toggle" role="button" tabindex="0" aria-label="Toggle dark mode">
+        <div class="toggle_track">
+          <img src="/icons/sun.svg" class="icon sun" alt="Light mode">
+          <img src="/icons/moon.svg" class="icon moon" alt="Dark mode">
+          <div class="toggle_thumb"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
