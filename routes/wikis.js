@@ -33,6 +33,8 @@ router.get('/getting-started', async (req, res) => {
   });
 });
 
+
+
 router.get('/search', async (req, res) => {
   const query = req.query.q || '';
 
@@ -152,6 +154,13 @@ router.post('/:slug/delete', async (req, res) => {
 
   res.sendStatus(200);
 });
+
+router.get('/map', (req, res) => {
+  res.render('map', {
+    title: 'Map',
+  });
+});
+
 
 router.get('/:slug', async (req, res) => {
   const { slug } = req.params;
