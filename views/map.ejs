@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<%- include('partials/head', { headTitle: 'Interactive Map' }) %>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+<style>
+  #map {
+    width: 100%;
+    flex: 1;
+  }
+</style>
+</head>
+<body>
+<%- include('partials/navbar') %>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+  const map = L.map('map', {
+    crs: L.CRS.Simple,
+    minZoom: -2,
+    maxZoom: 4
+  });
+
+  const mapWidth = 2250;
+  const mapHeight = 7000;
+  const mapBounds = [[0, 0], [mapHeight, mapWidth]];
+
+  L.imageOverlay('/images/map/map.png', mapBounds).addTo(map);
+  map.fitBounds(mapBounds);
+
+  const cityBounds = [
+    [967, 1570],
+    [1178, 1758]
+  ];
+  const cityOverlay = L.imageOverlay('/images/map/tilted.jpeg', cityBounds);
+
+  map.on('zoomend', function () {
+    if (map.getZoom() >= 2) {
+      if (!map.hasLayer(cityOverlay)) {
+        map.addLayer(cityOverlay);
+      }
+    } else {
+      if (map.hasLayer(cityOverlay)) {
+        map.removeLayer(cityOverlay);
+      }
+    }
+  });
+
+  const cityCenterCoords = [
+    (cityBounds[0][0] + cityBounds[1][0]) / 2,
+    (cityBounds[0][1] + cityBounds[1][1]) / 2
+  ];
+
+  const cityMarker = L.marker(cityCenterCoords).addTo(map);
+  cityMarker.bindPopup("<b>Tilted Towers</b><br>Triggered trash kids then their salt is increased.</br>");
+</script>
+
+<%- include('partials/footer') %>
+</body>
+</html>
