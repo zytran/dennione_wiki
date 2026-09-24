@@ -3,6 +3,10 @@
 require('dotenv').config();
 const path = require("path");
 const express = require('express');
+const session = require('express-session');
+const passport = require('passport');
+const pgSession = require('connect-pg-simple')(session);
+const { Pool } = require('pg');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -11,6 +15,25 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 
 app.use(express.static(path.join(__dirname, "public")));
+
+const sessionPool = new Pool({
+  connectionString: process.env.database_url,
+  ssl: { rejectUnauthorized: false },
+});
+
+app.use(session({
+  store: new pgSession({ pool: sessionPool }),
+  secret: process.env.session_secret,
+  resave: false,
+  saveUninitialized: false,
+}));
+
+app.use(passport.authenticate('session'));
+
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  next();
+});
 
 app.set('view engine', 'ejs');
 app.set("views", path.join(__dirname,"views"));

@@ -161,6 +161,11 @@ router.get('/map', (req, res) => {
   });
 });
 
+router.get('/login', (req, res) => {
+  res.render('login', {
+    title: 'Login',
+  });
+});
 
 router.get('/:slug', async (req, res) => {
   const { slug } = req.params;
@@ -170,7 +175,7 @@ router.get('/:slug', async (req, res) => {
   if (result.rows.length === 0) {
     return res.render('test_article', {
       title: slug.replace(/-/g, ' '),
-      message: '<p>Page does not exist yet.</p>',
+      message: '<p>There is currently no text created for this page. To create this page, log in and look at the <a href="../getting-started">getting started</a> to learn how to create this page.</p>',
       slug,
     });
   }
