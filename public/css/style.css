@@ -606,7 +606,8 @@ html[data-theme="dark"] .CodeMirror-line > span::selection {
 }
 
 .loginpage input[type="text"],
-.loginpage input[type="password"] {
+.loginpage input[type="password"],
+.loginpage input[type="email"] {
   background: transparent;
   border: 2px solid var(--auth-card-border);
   font-size: 1rem;
@@ -760,9 +761,9 @@ html[data-theme="dark"] .CodeMirror-line > span::selection {
     display: block;
 }
 
-.user-icon { background-image: url(./assets/user.png); }
-.lock-icon { background-image: url(./assets/lock.png); }
-.mail-icon { background-image: url(./assets/mail.png); }
+.user-icon { background-image: url(../icons/user.png); }
+.lock-icon { background-image: url(../icons/lock.png); }
+.mail-icon { background-image: url(../icons/mail.png); }
 
 
 /* to fix autocomplete messing appearance */
@@ -1065,18 +1066,6 @@ html[data-theme="dark"] .CodeMirror-line > span::selection {
   color: var(--action-text);
 }
 
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
 .auth-card input:-webkit-autofill,
 .auth-card input:-webkit-autofill:hover,
 .auth-card input:-webkit-autofill:focus,
@@ -1124,4 +1113,15 @@ html[data-theme="dark"] .CodeMirror-line > span::selection {
 
 .remember-me input[type="checkbox"] {
   width: auto;
+}
+
+.blank-button{
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+.blank-button:hover{
+  background: None;
+  text-decoration: underline;
 }

@@ -18,7 +18,7 @@
                         type="text"
                         id="username"
                         name="username"
-                        placeholder="username"
+                        placeholder="Username"
                         minlength="3"
                         maxlength="50"
                         autocomplete="username"
@@ -35,7 +35,7 @@
                         type="password"
                         id="password"
                         name="password"
-                        placeholder="password"
+                        placeholder="Password"
                         minlength="8"
                         maxlength="50"
                         autocomplete="current-password"
@@ -52,7 +52,7 @@
             <div class="remember-me">
                 <div class="remember">
                     <input type="checkbox" name="remember" id="remember">
-                    <label for="remember">remember me</label>
+                    <label for="remember">Remember Me</label>
                 </div>
                 <a href="#" class="forgot">Forgot Password?</a>
             </div>
@@ -64,10 +64,11 @@
 
         <div class="no-account">
             <p>Don't have an account?</p>
-            <a href="regis.html">Register</a>
+            <a href="/regis">Register</a>
         </div>
     </main>
 
     <script src="../public/js/login.js"></script>
+    <%- include('partials/footer') %>
 </body>
 </html>

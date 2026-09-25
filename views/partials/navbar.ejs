@@ -26,6 +26,15 @@
           <div class="toggle_thumb"></div>
         </div>
       </div>
+      <div>
+      <% if (typeof user !== 'undefined' && user) { %>
+        <form action="/logout" method="POST" class="navbar-logout-form">
+          <button type="submit" class="blank-button"><%= user.username %></button>
+        </form>
+      <% } else { %>
+        <a href="../login" class="navbar-login-link">Sign In</a>
+      <% } %>
+      </div>
     </div>
   </div>
 </header>

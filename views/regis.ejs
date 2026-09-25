@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Register</title>
-    <link rel="stylesheet" href="style.css">
+    <%- include('partials/head') %>
 </head>
 <body>
+    <%- include('partials/navbar') %>
     <main class="loginpage" aria-labelledby="login-heading">
         <h1 id="login-heading">Register</h1>
 
@@ -20,7 +18,7 @@
                         type="email"
                         id="email"
                         name="email"a
-                        placeholder="email"
+                        placeholder="Email"
                         minlength="8"
                         maxlength="50"
                         required
@@ -36,7 +34,7 @@
                         type="text"
                         id="username"
                         name="username"
-                        placeholder="username"
+                        placeholder="Username"
                         minlength="3"
                         maxlength="50"
                         required
@@ -52,7 +50,7 @@
                         type="password"
                         id="password"
                         name="password"
-                        placeholder="password"
+                        placeholder="Password"
                         minlength="8"
                         maxlength="50"
                         autocomplete="off"
@@ -69,7 +67,7 @@
             <div class="remember-me">
                 <div class="remember">
                     <input type="checkbox" name="remember" id="remember">
-                    <label for="remember">remember me</label>
+                    <label for="remember">Remember Me</label>
                 </div>
                 <a href="#" class="forgot">Forgot Password?</a>
             </div>
@@ -81,10 +79,11 @@
 
         <div class="no-account">
             <p>Already have an account?</p>
-            <a href="login.html">Login</a>
+            <a href="/login">Login</a>
         </div>
     </main>
 
-    <script src="regis.js"></script>
+    <script src="../public/js/regis.js"></script>
+    <%- include('partials/footer') %>
 </body>
 </html>

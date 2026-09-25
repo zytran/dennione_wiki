@@ -167,6 +167,12 @@ router.get('/login', (req, res) => {
   });
 });
 
+router.get('/regis', (req, res) => {
+  res.render('regis', {
+    title: 'regis',
+  });
+});
+
 router.get('/:slug', async (req, res) => {
   const { slug } = req.params;
 

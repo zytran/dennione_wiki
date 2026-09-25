@@ -11,6 +11,9 @@ const { Pool } = require('pg');
 const app = express();
 const port = process.env.PORT || 3000;
 
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 
@@ -35,8 +38,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.set('view engine', 'ejs');
-app.set("views", path.join(__dirname,"views"));
 
 /*app.get("/", (req, res) => {
     res.render("test_article", {
@@ -48,6 +49,10 @@ app.set("views", path.join(__dirname,"views"));
 
 const articleRoutes = require("./routes/wikis");
 app.use("/", articleRoutes);
+
+const authRoute = require("./routes/auth");
+app.use("/", authRoute);
+
 
 app.listen(port, '0.0.0.0', () => {
   console.log(`server running on port ${port}`);
