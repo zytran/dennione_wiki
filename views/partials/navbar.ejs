@@ -27,13 +27,27 @@
         </div>
       </div>
       <div>
-      <% if (typeof user !== 'undefined' && user) { %>
-        <form action="/logout" method="POST" class="navbar-logout-form">
-          <button type="submit" class="blank-button"><%= user.username %></button>
-        </form>
-      <% } else { %>
-        <a href="../login" class="navbar-login-link">Sign In</a>
-      <% } %>
+     <% if (typeof user !== 'undefined' && user) { %>
+
+  <div class="navbar-user-dropdown">
+
+    <button type="button" class="navbar-user-button">
+      <%= user.username %>
+    </button>
+
+    <div class="navbar-dropdown-menu">
+      <form action="/logout" method="POST">
+        <button type="submit">Sign Out</button>
+      </form>
+    </div>
+
+  </div>
+
+  <% } else { %>
+
+  <a href="/login" class="navbar-login-link">Sign In</a>
+
+<% } %>
       </div>
     </div>
   </div>

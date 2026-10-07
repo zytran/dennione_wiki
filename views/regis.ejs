@@ -12,12 +12,19 @@
             
             <div class="login glass">
 
+                <% if (typeof errors !== 'undefined' && errors.length) { %>
+                    <div class="error server-error" role="alert">
+                        <% errors.forEach(function (e) { %><p><%= e %></p><% }) %>
+                    </div>
+                <% } %>
+
                 <label for="email" class="sr-only">Email</label>
                 <div class="input-wrapper mail-wrapper">
                     <input
                         type="email"
                         id="email"
-                        name="email"a
+                        value="<%= (typeof values !== 'undefined' && values.email) || '' %>"
+                        name="email"
                         placeholder="Email"
                         minlength="8"
                         maxlength="50"
@@ -33,6 +40,7 @@
                     <input
                         type="text"
                         id="username"
+                        value="<%= (typeof values !== 'undefined' && values.username) || '' %>"
                         name="username"
                         placeholder="Username"
                         minlength="3"

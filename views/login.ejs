@@ -12,13 +12,19 @@
         <form id="loginForm" action="#" method="POST" novalidate>
             <div class="login glass">
 
+                <% if (typeof errors !== 'undefined' && errors.length) { %>
+                    <div class="error server-error" role="alert">
+                        <% errors.forEach(function (e) { %><p><%= e %></p><% }) %>
+                    </div>
+                <% } %>
+
                 <label for="username" class="sr-only">Username</label>
                 <div class="input-wrapper user-wrapper">
                     <input
                         type="text"
                         id="username"
                         name="username"
-                        placeholder="Username"
+                        placeholder="Username or Email"
                         minlength="3"
                         maxlength="50"
                         autocomplete="username"

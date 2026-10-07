@@ -1125,3 +1125,96 @@ html[data-theme="dark"] .CodeMirror-line > span::selection {
   background: None;
   text-decoration: underline;
 }
+
+.server-error{
+  font-size: medium;
+  font-weight: bolder;
+}
+
+.navbar-user-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.navbar-user-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  color: #ccc;
+  padding: 0.35rem 0;
+  width: auto;
+}
+
+.navbar-user-button:hover {
+  background: none;
+  color: #fff;
+}
+
+.navbar-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  min-width: 180px;
+
+  background-color: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+
+  z-index: 1000;
+  overflow: hidden;
+}
+
+/* Invisible area connecting the username to the dropdown */
+.navbar-user-dropdown::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 180px;
+  height: 0.5rem;
+}
+
+.navbar-user-dropdown:hover .navbar-dropdown-menu {
+  display: block;
+}
+
+.navbar-dropdown-menu a,
+.navbar-dropdown-menu button {
+  display: block;
+  width: 100%;
+
+  padding: 0.65rem 1rem;
+
+  background: none;
+  border: none;
+  border-radius: 0;
+
+  color: var(--text);
+  text-decoration: none;
+  text-align: left;
+
+  font: inherit;
+  font-size: 0.9rem;
+
+  cursor: pointer;
+}
+
+.navbar-dropdown-menu a:hover,
+.navbar-dropdown-menu button:hover {
+  background-color: var(--action-hover-bg);
+  color: var(--text);
+}
+
+.navbar-dropdown-menu form {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-dropdown-menu form button {
+  margin: 0;
+}

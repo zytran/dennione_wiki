@@ -81,13 +81,7 @@ class RegisterForm {
             return this.showError(this.passwordElement, this.sameUserPwElement, 'Username and password should not be the same');
         }
 
-        // Simulate registration
-        this.toggleButton(false, 'Logging in...');
-        setTimeout(() => {
-            alert('Register simulated - valid inputs. Implement server auth for real logins.');
-            this.form.reset();
-            this.toggleButton(true, 'Login');
-        }, 800);
+        this.form.submit();
     }
 }
 

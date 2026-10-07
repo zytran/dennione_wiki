@@ -10,10 +10,10 @@ class LoginForm {
         this.form.addEventListener('submit', (event) => this.login(event));
     }
 
-    showError(element, message, duration = 3000) {
-        element.textContent = message;
-        element.previousElementSibling.focus();
-        setTimeout(() => element.textContent = '', duration);
+    showError(inputElement, errorElement, message, duration = 3000) {
+        errorElement.textContent = message;
+        inputElement.focus();
+        setTimeout(() => (errorElement.textContent = ''), duration);
     }
 
     toggleButton(enabled, text) {
@@ -30,16 +30,16 @@ class LoginForm {
         this.userError.textContent = '';
         this.passError.textContent = '';
 
-        if (usernameValue === '') return this.showError(this.userError, 'Username cannot be empty');
-        if (passwordValue === '') return this.showError(this.passError, 'Password cannot be empty');
+        if (usernameValue === '') {
+            return this.showError(this.username, this.userError, 'Username or email cannot be empty');
+        }
+        if (passwordValue === '') {
+            return this.showError(this.password, this.passError, 'Password cannot be empty');
+        }
 
         this.toggleButton(false, 'Logging in...');
 
-        setTimeout(() => {
-            alert('Login simulated - valid inputs. Implement server auth for real logins.');
-            this.form.reset();
-            this.toggleButton(true, 'Login');
-        }, 800);
+        this.form.submit();
     }
 }
 

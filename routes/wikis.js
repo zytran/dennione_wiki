@@ -4,6 +4,7 @@ const router = express.Router();
 const db = require('../db/db');
 const marked = require('marked');
 const sanitize = require('sanitize-html');
+const requireLogin = require('../middleware/requireLogin');
 
 const SANITIZE_OPTIONS = {
   allowedTags: sanitize.defaults.allowedTags.concat(['img']),
@@ -82,7 +83,7 @@ router.get('/api/search-suggestions', async (req, res) => {
   res.json(result.rows);
 });
 
-router.get('/create', (req, res) => {
+router.get('/create', requireLogin, (req, res) => {
   res.render('create', {
     title: 'Create New Page',
     page: {},
@@ -90,7 +91,7 @@ router.get('/create', (req, res) => {
   });
 });
 
-router.post('/create', async (req, res) => {
+router.post('/create', requireLogin, async (req, res) => {
   const { title, slug, content } = req.body;
   const errors = [];
 
@@ -115,7 +116,7 @@ router.post('/create', async (req, res) => {
   res.redirect(`/${slug}`);
 });
 
-router.get('/:slug/edit', async (req, res) => {
+router.get('/:slug/edit', requireLogin, async (req, res) => {
   const { slug } = req.params;
 
   const result = await db.query('select * from pages where slug = $1', [slug]);
@@ -129,7 +130,7 @@ router.get('/:slug/edit', async (req, res) => {
   });
 });
 
-router.post('/:slug/edit', async (req, res) => {
+router.post('/:slug/edit', requireLogin, async (req, res) => {
   const { slug } = req.params;
   const { title, content } = req.body;
 
@@ -147,7 +148,7 @@ router.post('/:slug/edit', async (req, res) => {
   res.redirect(`/${slug}`);
 });
 
-router.post('/:slug/delete', async (req, res) => {
+router.post('/:slug/delete', requireLogin, async (req, res) => {
   const { slug } = req.params;
 
   await db.query('delete from pages where slug = $1', [slug]);
