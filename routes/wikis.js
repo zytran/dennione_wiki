@@ -174,6 +174,25 @@ router.get('/regis', (req, res) => {
   });
 });
 
+router.get('/regis', (req, res) => {
+  res.render('regis', {
+    title: 'regis',
+  });
+});
+
+router.get('/forgot_password', (req, res) => {
+  res.render('forgot_password', {
+    title: 'Forgot Password',
+  });
+});
+
+router.get('/reset_password', (req, res) => {
+  res.render('forgot_password', {
+    title: 'Forgot Password',
+  });
+});
+
+
 router.get('/:slug', async (req, res) => {
   const { slug } = req.params;
 

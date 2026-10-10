@@ -448,7 +448,7 @@ button:hover,
 }
 
 .delete-btn {
-  margin-top: 1rem;
+  
   background-color: var(--danger-bg);
   color: #fff;
 }
@@ -1218,3 +1218,4 @@ html[data-theme="dark"] .CodeMirror-line > span::selection {
 .navbar-dropdown-menu form button {
   margin: 0;
 }
+
