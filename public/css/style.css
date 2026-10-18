@@ -570,17 +570,7 @@ html[data-theme="dark"] .CodeMirror-line > span::selection {
   background-color: #555 !important;
 }
 
-.question-mark-dark {
-  display: none;
-}
 
-html[data-theme="dark"] .question-mark-light {
-  display: none;
-}
-
-html[data-theme="dark"] .question-mark-dark {
-  display: inline;
-}
 
 .loginpage {
   align-self: center;
@@ -1563,4 +1553,20 @@ html[data-theme="dark"] .question-mark-dark {
 .infobox-plus {
   font-weight: bold;
   font-size: 1.1em;
+}
+
+.question-mark-dark {
+  display: none;
+}
+
+.question-mark-light {
+  display: inline;
+}
+
+html[data-theme="dark"] .question-mark-dark {
+  display: inline;
+}
+
+html[data-theme="dark"] .question-mark-light {
+  display: none;
 }
