@@ -31,6 +31,8 @@
       <%- include('partials/markdown-instructions') %>
       <textarea id="editor" name="content"><%= page?.content || '' %></textarea>
 
+      <%- include('partials/infobox-editor') %>
+
       <button type="submit">Create Page</button>
     </form>
   </div>

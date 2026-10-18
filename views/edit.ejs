@@ -15,8 +15,10 @@
       <input type="text" name="title" id="title" value="<%= page?.title || '' %>" required>
 
       <%- include('partials/markdown-instructions') %>
-
+      
       <textarea id="editor" name="content"><%= content %></textarea>
+
+      <%- include('partials/infobox-editor') %>
       <button type="submit">Save</button>
     </form>
 
@@ -27,7 +29,9 @@
   </div>
 </main>
 
+
 <%- include('partials/footer', { useEditor: true }) %>
+
 
 <script>
   const simplemde = new SimpleMDE({

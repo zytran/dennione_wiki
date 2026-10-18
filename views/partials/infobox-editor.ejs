@@ -1,0 +1,18 @@
+<% const _infobox = (typeof infobox !== 'undefined' && infobox) ? infobox : { image: '', sections: [] }; %>
+<fieldset class="infobox-editor" id="infobox-editor">
+  <legend>Info box (optional)</legend>
+
+  <label for="infobox-image">Image link</label>
+  <input type="text" id="infobox-image" placeholder="https://example.com/image.png" value="<%= _infobox.image || '' %>">
+
+  <div id="infobox-sections"></div>
+
+  <button type="button" class="infobox-add-section" id="infobox-add-section">
+    <span class="infobox-plus" aria-hidden="true">+</span> Add category
+  </button>
+
+  <input type="hidden" name="infobox" id="infobox-data">
+  <script type="application/json" id="infobox-initial"><%- JSON.stringify(_infobox).replace(/</g, '\\u003c') %></script>
+</fieldset>
+
+<script src="/js/infobox-editor.js"></script>

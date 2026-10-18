@@ -5,6 +5,7 @@ const db = require('../db/db');
 const marked = require('marked');
 const sanitize = require('sanitize-html');
 const requireLogin = require('../middleware/requireLogin');
+const { parseInfobox } = require('../utils/infobox');
 
 const SANITIZE_OPTIONS = {
   allowedTags: sanitize.defaults.allowedTags.concat(['img']),
@@ -87,12 +88,14 @@ router.get('/create', requireLogin, (req, res) => {
   res.render('create', {
     title: 'Create New Page',
     page: {},
+    infobox: null,
     errors: [],
   });
 });
 
 router.post('/create', requireLogin, async (req, res) => {
   const { title, slug, content } = req.body;
+  const infobox = parseInfobox(req.body.infobox);
   const errors = [];
 
   if (!title || !slug || !content) {
@@ -105,12 +108,12 @@ router.post('/create', requireLogin, async (req, res) => {
   }
 
   if (errors.length > 0) {
-    return res.render('create', { title: 'Create New Page', page: req.body, errors });
+    return res.render('create', { title: 'Create New Page', page: req.body, infobox, errors });
   }
 
   await db.query(
-    'insert into pages (title, slug, content, updated_at) values ($1, $2, $3, now())',
-    [title, slug, content]
+    'insert into pages (title, slug, content, infobox, updated_at) values ($1, $2, $3, $4, now())',
+    [title, slug, content, infobox ? JSON.stringify(infobox) : null]
   );
 
   res.redirect(`/${slug}`);
@@ -126,6 +129,7 @@ router.get('/:slug/edit', requireLogin, async (req, res) => {
     title: page?.title || slug.replace(/-/g, ' '),
     slug,
     content: page?.content || '',
+    infobox: page?.infobox || null,
     page,
   });
 });
@@ -133,16 +137,18 @@ router.get('/:slug/edit', requireLogin, async (req, res) => {
 router.post('/:slug/edit', requireLogin, async (req, res) => {
   const { slug } = req.params;
   const { title, content } = req.body;
+  const infobox = parseInfobox(req.body.infobox);
 
   await db.query(
-    `insert into pages (slug, title, content)
-     values ($1, $2, $3)
+    `insert into pages (slug, title, content, infobox)
+     values ($1, $2, $3, $4)
      on conflict (slug)
      do update set
        title = excluded.title,
        content = excluded.content,
+       infobox = excluded.infobox,
        updated_at = now()`,
-    [slug, title, content]
+    [slug, title, content, infobox ? JSON.stringify(infobox) : null]
   );
 
   res.redirect(`/${slug}`);
@@ -203,6 +209,7 @@ router.get('/:slug', async (req, res) => {
       title: slug.replace(/-/g, ' '),
       message: '<p>There is currently no text created for this page. To create this page, log in and look at the <a href="../getting-started">getting started</a> to learn how to create this page.</p>',
       slug,
+      infobox: null,
     });
   }
 
@@ -214,6 +221,7 @@ router.get('/:slug', async (req, res) => {
     title,
     message: content,
     slug,
+    infobox: page.infobox || null,
   });
 });
 

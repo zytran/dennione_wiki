@@ -85,18 +85,23 @@ body {
 }
 
 h1 {
-  text-align: center;
+  text-align: left;
   color: var(--heading);
+  padding: 1rem 1.25rem;
+  position: relative;
+  opacity: 0.8;
 }
 
-a {
-  color: var(--link);
+h1::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 1.25rem;
+  right: 1.25rem;
+  height: 2px;
+  background-color: currentColor;
+  opacity: 0.25;
 }
-
-a:visited {
-  color: var(--link);
-}
-
 a:hover {
   color: var(--link-hover);
 }
@@ -106,7 +111,6 @@ a:hover {
 }
 
 .container {
-  max-width: 800px;
   margin: 2rem auto;
   padding: 1rem;
 }
@@ -564,6 +568,18 @@ html[data-theme="dark"] .CodeMirror-selected,
 html[data-theme="dark"] .CodeMirror-line::selection,
 html[data-theme="dark"] .CodeMirror-line > span::selection {
   background-color: #555 !important;
+}
+
+.question-mark-dark {
+  display: none;
+}
+
+html[data-theme="dark"] .question-mark-light {
+  display: none;
+}
+
+html[data-theme="dark"] .question-mark-dark {
+  display: inline;
 }
 
 .loginpage {
@@ -1219,3 +1235,332 @@ html[data-theme="dark"] .CodeMirror-line > span::selection {
   margin: 0;
 }
 
+:root {
+  --infobox-accent: #2f6fed;
+  --infobox-accent-text: #fff;
+}
+
+.article-layout {
+  display: flow-root;
+}
+
+.infobox {
+  float: right;
+  width: 300px;
+  max-width: 100%;
+  margin: 0 0 1rem 1.5rem;
+  background-color: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  font-size: 0.9rem;
+}
+
+.infobox-title,
+.infobox-section-title {
+  background-color: var(--infobox-accent);
+  color: var(--infobox-accent-text);
+  text-align: center;
+  font-weight: bold;
+  padding: 0.5rem 0.75rem;
+}
+
+.infobox-title {
+  font-size: 1.1rem;
+}
+
+.infobox-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.infobox-rows {
+  margin: 0;
+  padding: 0.25rem 0;
+}
+
+.infobox-row {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.35rem 0.75rem;
+}
+
+.infobox-row dt {
+  flex: 0 0 38%;
+  text-align: right;
+  font-weight: bold;
+}
+
+.infobox-row dd {
+  flex: 1;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+@media screen and (max-width: 700px) {
+  .infobox {
+    float: none;
+    width: 100%;
+    margin: 0 0 1rem;
+  }
+}
+
+.infobox-editor {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.infobox-editor legend {
+  padding: 0 0.5rem;
+  font-weight: bold;
+}
+
+#infobox-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.infobox-edit-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.infobox-edit-section-header,
+.infobox-edit-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.infobox-edit-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.infobox-edit-title {
+  flex: 1;
+  font-weight: bold;
+}
+
+.infobox-edit-label {
+  flex: 0 0 35%;
+}
+
+.infobox-edit-value {
+  flex: 1;
+}
+
+.infobox-editor .infobox-icon-btn {
+  flex: 0 0 2rem;
+  align-self: auto;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--action-text);
+  background-color: var(--action-bg);
+  border: 1px solid var(--border);
+}
+
+.infobox-editor .infobox-icon-btn:hover {
+  color: #fff;
+  background-color: var(--danger-bg);
+}
+
+.infobox-add-row,
+.infobox-add-section {
+  align-self: flex-start;
+  width: auto;
+  padding: 0.4rem 0.9rem;
+  color: var(--action-text);
+  background-color: var(--action-bg);
+  border: 1px solid var(--border);
+}
+
+.infobox-add-row:hover,
+.infobox-add-section:hover {
+  background-color: var(--action-hover-bg);
+}
+
+.infobox-plus {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+:root {
+  --infobox-accent: #2f6fed;
+  --infobox-accent-text: #fff;
+}
+
+.article-layout {
+  display: flow-root;
+}
+
+.infobox {
+  float: right;
+  width: 300px;
+  max-width: 100%;
+  margin: 0 0 1rem 1.5rem;
+  background-color: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  font-size: 0.9rem;
+}
+
+.infobox-title,
+.infobox-section-title {
+  background-color: var(--infobox-accent);
+  color: var(--infobox-accent-text);
+  text-align: center;
+  font-weight: bold;
+  padding: 0.5rem 0.75rem;
+}
+
+.infobox-title {
+  font-size: 1.1rem;
+}
+
+.infobox-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.infobox-rows {
+  margin: 0;
+  padding: 0.25rem 0;
+}
+
+.infobox-row {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.35rem 0.75rem;
+}
+
+.infobox-row dt {
+  flex: 0 0 38%;
+  text-align: right;
+  font-weight: bold;
+}
+
+.infobox-row dd {
+  flex: 1;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+@media screen and (max-width: 700px) {
+  .infobox {
+    float: none;
+    width: 100%;
+    margin: 0 0 1rem;
+  }
+}
+
+.infobox-editor {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.infobox-editor legend {
+  padding: 0 0.5rem;
+  font-weight: bold;
+}
+
+#infobox-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.infobox-edit-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.infobox-edit-section-header,
+.infobox-edit-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.infobox-edit-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.infobox-edit-title {
+  flex: 1;
+  font-weight: bold;
+}
+
+.infobox-edit-label {
+  flex: 0 0 35%;
+}
+
+.infobox-edit-value {
+  flex: 1;
+}
+
+.infobox-editor .infobox-icon-btn {
+  flex: 0 0 2rem;
+  align-self: auto;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--action-text);
+  background-color: var(--action-bg);
+  border: 1px solid var(--border);
+}
+
+.infobox-editor .infobox-icon-btn:hover {
+  color: #fff;
+  background-color: var(--danger-bg);
+}
+
+.infobox-add-row,
+.infobox-add-section {
+  align-self: flex-start;
+  width: auto;
+  padding: 0.4rem 0.9rem;
+  color: var(--action-text);
+  background-color: var(--action-bg);
+  border: 1px solid var(--border);
+}
+
+.infobox-add-row:hover,
+.infobox-add-section:hover {
+  background-color: var(--action-hover-bg);
+}
+
+.infobox-plus {
+  font-weight: bold;
+  font-size: 1.1em;
+}

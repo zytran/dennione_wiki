@@ -1,0 +1,40 @@
+<% if (typeof infobox !== 'undefined' && infobox && (infobox.image || (infobox.sections && infobox.sections.length))) { %>
+<aside class="infobox" aria-label="Info box">
+  <div class="infobox-title"><%= title %></div>
+
+  <% if (infobox.image) { %>
+    <img class="infobox-image" src="<%= infobox.image %>" alt="<%= title %>" loading="lazy" referrerpolicy="no-referrer">
+  <% } else {  %>
+    <picture class="infobox-image-container">
+      <img class="question-mark-dark infobox-image"
+       src="/images/question_mark.png"
+       alt="<%= title %>">
+
+      <img class="question-mark-light infobox-image"
+        src="/images/question_mark_light.png"
+       alt="">
+    </picture>
+  <% } %>
+
+  <% (infobox.sections || []).forEach(function (section) { %>
+    <% if (section.title) { %>
+      <div class="infobox-section-title"><%= section.title %></div>
+    <% } %>
+
+    <dl class="infobox-rows">
+      <% (section.rows || []).forEach(function (row) { %>
+        <div class="infobox-row">
+          <dt><%= row.label %>:</dt>
+          <dd>
+            <% if (/^https?:\/\/\S+$/i.test(row.value)) { %>
+              <a href="<%= row.value %>" target="_blank" rel="noopener noreferrer nofollow"><%= row.value.replace(/^https?:\/\/(www\.)?/i, '') %></a>
+            <% } else { %>
+              <%= row.value %>
+            <% } %>
+          </dd>
+        </div>
+      <% }) %>
+    </dl>
+  <% }) %>
+</aside>
+<% } %>
