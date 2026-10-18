@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<%- include('partials/head', { useEditor: true }) %>
+<%- include('partials/head') %>
+<link rel="stylesheet" href="https://uicdn.toast.com/editor/3.2.2/toastui-editor.min.css">
+<link rel="stylesheet" href="https://uicdn.toast.com/editor/3.2.2/theme/toastui-editor-dark.css">
 </head>
 <body>
 <%- include('partials/navbar') %>
 
-<header>
-  <h1><%= title %></h1>
-</header>
-
 <main class="content">
   <div class="container">
+    <h1><%= title %></h1>
+
     <% if (errors && errors.length > 0) { %>
       <ul class="errors">
         <% errors.forEach(e => { %>
@@ -20,16 +20,16 @@
       </ul>
     <% } %>
 
-    <form action="/create" method="POST">
+    <form action="/create" method="POST" id="page-form">
       <label for="title">Title</label>
       <input type="text" name="title" id="title" value="<%= page?.title || '' %>" required>
 
       <label for="slug">Slug (URL)</label>
       <input type="text" name="slug" id="slug" value="<%= page?.slug || '' %>" required>
 
-      <label for="content">Content</label>
-      <%- include('partials/markdown-instructions') %>
-      <textarea id="editor" name="content"><%= page?.content || '' %></textarea>
+      <label>Content</label>
+      <div id="editor"></div>
+      <input type="hidden" name="content" id="content">
 
       <%- include('partials/infobox-editor') %>
 
@@ -40,17 +40,33 @@
 
 <%- include('partials/footer', { useEditor: true }) %>
 
+<script src="https://uicdn.toast.com/editor/3.2.2/toastui-editor-all.min.js"></script>
 <script>
-  const simplemde = new SimpleMDE({
-    element: document.getElementById('editor'),
-    spellChecker: true,
-    status: false,
-    autosave: {
-      enabled: true,
-      uniqueId: 'wiki-editor-<%= page?.slug || "" %>',
-      delay: 1000
-    }
-  });
+  const initial = <%- JSON.stringify(page?.content || '').replace(/</g, '\\u003c') %>;
+
+  const editor = new toastui.Editor({
+    el: document.getElementById('editor'),
+    height: '500px',
+    initialEditType: 'wysiwyg',
+    hideModeSwitch: true,
+    previewStyle: 'tab',
+    initialValue: initial,
+    usageStatistics: false
+});
+
+  function syncTheme() {
+    const ui = document.querySelector('#editor .toastui-editor-defaultUI');
+    if (ui) ui.classList.toggle('toastui-editor-dark',
+      document.documentElement.dataset.theme === 'dark');
+  }
+  syncTheme();
+  new MutationObserver(syncTheme)
+    .observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  const hidden = document.getElementById('content');
+    document.getElementById('page-form').addEventListener('submit', () => {
+  hidden.value = editor.getMarkdown();
+});
 </script>
 </body>
 </html>

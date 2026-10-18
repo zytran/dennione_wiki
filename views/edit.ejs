@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <%- include('partials/head', { useEditor: true, headTitle: 'Edit: ' + title }) %>
+<link rel="stylesheet" href="https://uicdn.toast.com/editor/3.2.2/toastui-editor.min.css">
+<link rel="stylesheet" href="https://uicdn.toast.com/editor/3.2.2/theme/toastui-editor-dark.css">
 </head>
 <body>
 <%- include('partials/navbar') %>
@@ -16,8 +18,9 @@
 
       <%- include('partials/markdown-instructions') %>
       
-      <textarea id="editor" name="content"><%= content %></textarea>
-
+      <label>Content</label>
+      <div id="editor"></div>
+      <input type="hidden" name="content" id="content">
       <%- include('partials/infobox-editor') %>
       <button type="submit">Save</button>
     </form>
@@ -32,18 +35,34 @@
 
 <%- include('partials/footer', { useEditor: true }) %>
 
+<script src="https://uicdn.toast.com/editor/3.2.2/toastui-editor-all.min.js"></script>
 
 <script>
-  const simplemde = new SimpleMDE({
-    element: document.getElementById('editor'),
-    spellChecker: true,
-    status: false,
-    autosave: {
-      enabled: true,
-      uniqueId: 'wiki-editor-<%= slug %>',
-      delay: 1000
-    }
-  });
+  const initial = <%- JSON.stringify(page?.content || '').replace(/</g, '\\u003c') %>;
+
+  const editor = new toastui.Editor({
+    el: document.getElementById('editor'),
+    height: '500px',
+    initialEditType: 'wysiwyg',
+    hideModeSwitch: true,
+    previewStyle: 'tab',
+    initialValue: initial,
+    usageStatistics: false
+});
+
+  function syncTheme() {
+    const ui = document.querySelector('#editor .toastui-editor-defaultUI');
+    if (ui) ui.classList.toggle('toastui-editor-dark',
+      document.documentElement.dataset.theme === 'dark');
+  }
+  syncTheme();
+  new MutationObserver(syncTheme)
+    .observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  const hidden = document.getElementById('content');
+    document.getElementById('page-form').addEventListener('submit', () => {
+  hidden.value = editor.getMarkdown();
+});
 
   function confirmDelete() {
     const input = prompt("This will permanently delete this page.\n\nType 'confirm' to continue:");

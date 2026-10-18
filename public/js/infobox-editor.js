@@ -43,6 +43,11 @@
     return btn;
   }
 
+  function autoGrow(textarea) {
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
+  }
+
   function addRow(rowsEl, row) {
     const wrap = el('div', 'infobox-edit-row');
 
@@ -52,21 +57,27 @@
       maxlength: '100',
       'aria-label': 'Row label',
     });
-    const value = el('input', 'infobox-edit-value', {
-      type: 'text',
+
+
+    const value = el('textarea', 'infobox-edit-value', {
       placeholder: 'Value',
       maxlength: '500',
+      rows: '1',
       'aria-label': 'Row value',
     });
 
     label.value = row && row.label ? row.label : '';
     value.value = row && row.value ? row.value : '';
+    value.addEventListener('input', () => autoGrow(value));
 
     const remove = removeButton('Remove row');
     remove.addEventListener('click', () => wrap.remove());
 
     wrap.append(label, value, remove);
     rowsEl.appendChild(wrap);
+
+    
+    autoGrow(value);
 
     return wrap;
   }
@@ -111,6 +122,7 @@
     addSection(null).querySelector('.infobox-edit-title').focus();
   });
 
+  
   root.addEventListener('keydown', event => {
     if (event.key === 'Enter' && event.target.tagName === 'INPUT') {
       event.preventDefault();
@@ -122,7 +134,7 @@
       title: section.querySelector('.infobox-edit-title').value.trim(),
       rows: Array.from(section.querySelectorAll('.infobox-edit-row')).map(row => ({
         label: row.querySelector('.infobox-edit-label').value.trim(),
-        value: row.querySelector('.infobox-edit-value').value.trim(),
+        value: row.querySelector('.infobox-edit-value').value.replace(/\r\n?/g, '\n').trim(),
       })),
     }));
 
